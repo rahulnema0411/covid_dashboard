@@ -14,13 +14,19 @@ class DataCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 2.0),
-      child: Card(
-        color: kCardColor,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(18.0),
-        ),
-        elevation: 2.0,
-        shadowColor: kShadowColor,
+      child: Container(
+        margin: EdgeInsets.symmetric(vertical: 5.0, horizontal: 2.0),
+        decoration: BoxDecoration(
+            color: kCardColor,
+            borderRadius: BorderRadius.all(
+              Radius.circular(25.0),
+            ),
+            boxShadow: [
+              new BoxShadow(
+                color: kShadowColor,
+                blurRadius: 18.0,
+              ),
+            ]),
         child: FlatButton(
           padding: EdgeInsets.all(0.0),
           onPressed: onPressed,

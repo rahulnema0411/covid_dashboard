@@ -53,4 +53,10 @@ class ListCard {
     }
     _list = list;
   }
+
+  void printList() {
+    for (int i = 0; i < _list.length; i++) {
+      _list[i].printAllData();
+    }
+  }
 }

@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 
 const Color kAppBarColor = Color(0xFFF1F1F1);
 const Color kAppBackgroundColor = Color(0xFFF1F1F1);
-const Color kCardColor = Colors.white;
+const Color kCardColor = Color(0xFFF7F7F7);
 const Color kTextColor = Color(0xFF464646);
 const Color kAccentColor_blue = Color(0xFF50BED3);
 const Color kAccentColor_red = Color(0xFFFF785E);
 const Color kAccentColor_green = Color(0xFF69CA87);
-const Color kShadowColor = Colors.white10;
+const Color kShadowColor = Color(0xFFECECEC);
 
 const TextStyle textStyle_dark = TextStyle(
   color: kTextColor,

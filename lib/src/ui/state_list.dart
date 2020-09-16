@@ -2,17 +2,14 @@ import 'package:covid_dashboard/src/bloc/bloc_layer.dart';
 import 'package:covid_dashboard/src/constants.dart';
 import 'package:covid_dashboard/src/models/card_data.dart';
 import 'package:covid_dashboard/src/models/list_card.dart';
-import 'package:covid_dashboard/src/ui/data_card.dart';
+import 'package:covid_dashboard/src/ui/list_view.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class StateList extends StatelessWidget {
-  final CardData _cardData = CardData();
-
   @override
   Widget build(BuildContext context) {
     bloc.fetchAllData();
-
+    List<CardData> _list = [];
     return Scaffold(
       backgroundColor: kAppBackgroundColor,
       appBar: AppBar(
@@ -32,7 +29,12 @@ class StateList extends StatelessWidget {
         stream: bloc.data,
         builder: (context, AsyncSnapshot<ListCard> snapshot) {
           if (snapshot.hasData) {
-            return Text('Data Loaded');
+            _list = snapshot.data.list;
+            print("In stateList");
+            for (int i = 0; i < _list.length; i++) {
+              _list[i].printAllData();
+            }
+            return CardListView(_list);
           } else if (snapshot.hasError) {
             return Text(snapshot.error.toString());
           }
