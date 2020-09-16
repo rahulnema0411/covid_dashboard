@@ -1,9 +1,13 @@
 import 'dart:async';
-import 'package:covid_dashboard/src/constants.dart';
-import 'package:covid_dashboard/src/models/card_data.dart';
+import 'package:covid_dashboard/src/models/list_card.dart';
 import 'package:covid_dashboard/src/resources/api_provider.dart';
 
 class Repository {
+  final apiProvider = ApiProvider();
+
+  Future<ListCard> fetchAllData() => apiProvider.fetchData();
+}
+/*class Repository {
   Future<List> getData() async {
     ApiProvider apiProvider = ApiProvider();
     await apiProvider.getResponse();
@@ -60,4 +64,4 @@ class Repository {
     }
     return list;
   }
-}
+}*/

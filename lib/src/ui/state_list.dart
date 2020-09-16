@@ -1,6 +1,7 @@
 import 'package:covid_dashboard/src/bloc/bloc_layer.dart';
 import 'package:covid_dashboard/src/constants.dart';
 import 'package:covid_dashboard/src/models/card_data.dart';
+import 'package:covid_dashboard/src/models/list_card.dart';
 import 'package:covid_dashboard/src/ui/data_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,7 +11,7 @@ class StateList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final blocLayer = BlocProvider.of<BlocLayer>(context);
+    bloc.fetchAllData();
 
     return Scaffold(
       backgroundColor: kAppBackgroundColor,
@@ -27,29 +28,16 @@ class StateList extends StatelessWidget {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            DataCard(
-              cardData: _cardData,
-              onPressed: () {},
-            ),
-            BlocBuilder<BlocLayer, DataEvent>(
-              builder: (context, state) {
-                if (state is DataIsLoadingState) {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                } else if (state is DataIsNotLoadedState) {
-                  return Text('Could not load Data');
-                } else if (state is DataIsLoadedState) {
-                  return Text('Data is Loaded');
-                }
-                return Text('Hello');
-              },
-            ),
-          ],
-        ),
+      body: StreamBuilder(
+        stream: bloc.data,
+        builder: (context, AsyncSnapshot<ListCard> snapshot) {
+          if (snapshot.hasData) {
+            return Text('Data Loaded');
+          } else if (snapshot.hasError) {
+            return Text(snapshot.error.toString());
+          }
+          return Center(child: CircularProgressIndicator());
+        },
       ),
     );
   }

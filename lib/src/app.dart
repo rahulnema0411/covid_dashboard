@@ -10,12 +10,7 @@ class App extends StatelessWidget {
     // TODO: implement build
     return MaterialApp(
       home: Scaffold(
-        body: BlocProvider(
-          create: (BuildContext context) {
-            return BlocLayer(FetchDataEvent(), Repository());
-          },
-          child: StateList(),
-        ),
+        body: StateList(),
       ),
     );
   }

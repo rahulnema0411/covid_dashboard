@@ -1,55 +1,22 @@
-import 'package:bloc/bloc.dart';
-import 'package:covid_dashboard/src/models/card_data.dart';
-import 'package:covid_dashboard/src/resources/repository.dart';
-import 'package:equatable/equatable.dart';
+import 'package:covid_dashboard/src/models/list_card.dart';
 
-class DataEvent extends Equatable {
-  @override
-  // TODO: implement props
-  List<Object> get props => [];
-}
+import '../resources/repository.dart';
+import 'package:rxdart/rxdart.dart';
 
-class FetchDataEvent extends DataEvent {}
+class BlocLayer {
+  final _repository = Repository();
+  final _dataFetcher = PublishSubject<ListCard>();
 
-class State extends Equatable {
-  @override
-  // TODO: implement props
-  List<Object> get props => [];
-}
+  Observable<ListCard> get data => _dataFetcher.stream;
 
-class DataIsLoadingState extends State {}
+  fetchAllData() async {
+    ListCard _listCard = await _repository.fetchAllData();
+    _dataFetcher.sink.add(_listCard);
+  }
 
-class DataIsLoadedState extends State {
-  final List<CardData> _list;
-
-  List<CardData> get list => _list;
-
-  DataIsLoadedState(this._list);
-  @override
-  // TODO: implement props
-  List<Object> get props => [_list];
-}
-
-class DataIsNotLoadedState extends State {}
-
-class BlocLayer extends Cubit<DataEvent> {
-  Repository repository;
-
-  BlocLayer(DataEvent state, this.repository) : super(state);
-
-  State get initialState => DataIsLoadingState();
-
-  Stream<State> mapEventToState(DataEvent event) async* {
-    // TODO: implement mapEventToState
-    if (event is FetchDataEvent) {
-      yield DataIsLoadingState();
-
-      try {
-        List<CardData> list = await repository.getData();
-        yield DataIsLoadedState(list);
-      } catch (Exception) {
-        yield DataIsNotLoadedState();
-      }
-    }
+  dispose() {
+    _dataFetcher.close();
   }
 }
+
+final bloc = BlocLayer();
