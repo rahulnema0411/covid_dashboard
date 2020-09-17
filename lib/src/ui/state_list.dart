@@ -5,7 +5,14 @@ import 'package:covid_dashboard/src/models/list_card.dart';
 import 'package:covid_dashboard/src/ui/list_view.dart';
 import 'package:flutter/material.dart';
 
-class StateList extends StatelessWidget {
+class StateList extends StatefulWidget {
+  @override
+  _StateListState createState() => _StateListState();
+}
+
+class _StateListState extends State<StateList> {
+  int _selectedWidget = 0;
+
   @override
   Widget build(BuildContext context) {
     bloc.fetchAllData();
@@ -30,11 +37,23 @@ class StateList extends StatelessWidget {
         builder: (context, AsyncSnapshot<ListCard> snapshot) {
           if (snapshot.hasData) {
             _list = snapshot.data.list;
-            print("In stateList");
-            for (int i = 0; i < _list.length; i++) {
-              _list[i].printAllData();
+            if (_selectedWidget == 0) {
+              return CardListView(_list, () {
+                setState(() {
+                  _selectedWidget = 1;
+                });
+                print('I was pressed');
+              });
+            } else if (_selectedWidget == 1) {
+              return FlatButton(
+                onPressed: () {
+                  setState(() {
+                    _selectedWidget = 0;
+                  });
+                },
+                child: Text('Go Back'),
+              );
             }
-            return CardListView(_list);
           } else if (snapshot.hasError) {
             return Text(snapshot.error.toString());
           }

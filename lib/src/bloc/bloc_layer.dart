@@ -1,5 +1,4 @@
 import 'package:covid_dashboard/src/models/list_card.dart';
-
 import '../resources/repository.dart';
 import 'package:rxdart/rxdart.dart';
 
